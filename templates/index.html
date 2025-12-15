@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Araba Fiyat Tahmini</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+
+        /* Arka plan görseli */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://img.wallpapic.com/i3239-843-027/thumb/arabalar-spor-araba-super-konsept-duvar-kagidi.jpg");
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -2;
+        }
+
+        /* Koyu overlay */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        .container {
+            width: 460px;
+            max-height: 90vh;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            overflow-y: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #34495e;
+            display: block;
+            margin-top: 14px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 9px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .radio-group {
+            margin-top: 6px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f0f4ff;
+            border-left: 6px solid #667eea;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+
+<div class="container">
+    <h2>🚗 Araba Fiyat Tahmini</h2>
+
+    <form method="post">
+
+        <label>Model Yılı</label>
+        <input type="number" name="year" required
+               value="{{ form_data.get('year','') }}">
+
+        <label>Kilometre</label>
+        <input type="number" name="km_driven" required
+               value="{{ form_data.get('km_driven','') }}">
+
+        <label>Yakıt Verimliliği (kmpl)</label>
+        <input type="number" step="0.1" name="mileage" required
+               value="{{ form_data.get('mileage','') }}">
+
+        <label>Motor Hacmi (CC)</label>
+        <input type="number" name="engine" required
+               value="{{ form_data.get('engine','') }}">
+
+        <label>Maksimum Güç (bhp)</label>
+        <input type="number" step="0.1" name="max_power" required
+               value="{{ form_data.get('max_power','') }}">
+
+        <label>Koltuk Sayısı</label>
+        <input type="number" name="seats" required
+               value="{{ form_data.get('seats','') }}">
+
+        <label>Yakıt Türü</label>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="fuel_Petrol" value="1"
+                {% if form_data.get('fuel_Petrol') == '1' %}checked{% endif %}>
+                Petrol
+            </label>
+            <label>
+                <input type="radio" name="fuel_Petrol" value="0"
+                {% if form_data.get('fuel_Petrol') == '0' %}checked{% endif %}>
+                Diğer
+            </label>
+        </div>
+
+        <label>Şanzıman</label>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="transmission_Manual" value="1"
+                {% if form_data.get('transmission_Manual') == '1' %}checked{% endif %}>
+                Manuel
+            </label>
+            <label>
+                <input type="radio" name="transmission_Manual" value="0"
+                {% if form_data.get('transmission_Manual') == '0' %}checked{% endif %}>
+                Otomatik
+            </label>
+        </div>
+
+        <label>Satıcı Türü</label>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="seller_type_Individual" value="1"
+                {% if form_data.get('seller_type_Individual') == '1' %}checked{% endif %}>
+                Bireysel
+            </label>
+            <label>
+                <input type="radio" name="seller_type_Individual" value="0"
+                {% if form_data.get('seller_type_Individual') == '0' %}checked{% endif %}>
+                Galeri
+            </label>
+        </div>
+
+        <label>Sahiplik Durumu</label>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="owner_Second Owner" value="1"
+                {% if form_data.get('owner_Second Owner') == '1' %}checked{% endif %}>
+                İkinci Sahip
+            </label>
+            <label>
+                <input type="radio" name="owner_Second Owner" value="0"
+                {% if form_data.get('owner_Second Owner') == '0' %}checked{% endif %}>
+                Diğer
+            </label>
+        </div>
+
+        <button type="submit">Fiyatı Tahmin Et</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result">
+            Tahmini Araç Fiyatı:<br>
+            <strong>{{ prediction }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="footer">
+        BLG-407 • Makine Öğrenmesi Proje 3
+    </div>
+</div>
+
+</body>
+</html>
