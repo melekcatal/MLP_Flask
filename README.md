@@ -23,23 +23,25 @@ https://github.com/melekcatal/MLP_Flask
 
 # 📑 İçindekiler
 
-Proje Açıklaması
+- Proje Açıklaması
 
-Kullanılan Veri Seti
+- Kullanılan Veri Seti
 
-Veri Ön İşleme
+- Kullanılan Teknolojiler
 
-Özellik Seçimi ve Backward Elimination
+- Veri Ön İşleme
 
-Model Eğitimi ve Değerlendirme
+- Özellik Seçimi ve Backward Elimination
 
-Flask Web Arayüzü
+- Model Eğitimi ve Değerlendirme
 
-Kurulum ve Çalıştırma
+- Flask Web Arayüzü
 
-Dosya Yapısı
+- Kurulum ve Çalıştırma
 
-Sonuç ve Değerlendirme
+- Dosya Yapısı
+
+- Sonuç ve Değerlendirme
 
 ---
 
@@ -49,11 +51,11 @@ Bu projede, araçlara ait yıl, kilometre, motor özellikleri ve temel nitelikle
 
 Model:
 
-Veri ön işleme adımlarından geçirilmiş
+- Veri ön işleme adımlarından geçirilmiş
 
-Kategorik değişkenler sayısallaştırılmış
+- Kategorik değişkenler sayısallaştırılmış
 
-Backward Elimination yöntemi ile istatistiksel olarak anlamlı öznitelikler seçilmiştir
+- Backward Elimination yöntemi ile istatistiksel olarak anlamlı öznitelikler seçilmiştir
 
 Eğitilen model, Flask tabanlı bir web uygulaması ile kullanıcıdan alınan araç bilgilerine göre fiyat tahmini yapmaktadır.
 
@@ -61,16 +63,47 @@ Eğitilen model, Flask tabanlı bir web uygulaması ile kullanıcıdan alınan a
 
 # 📊 Kullanılan Veri Seti
 
-Kaynak: İkinci el araç satış verileri (CSV formatı) (Kaggle)
+- Kaynak: İkinci el araç satış verileri (CSV formatı) (Kaggle)
 
-Gözlem sayısı: 8000+ araç
+- Gözlem sayısı: 8000+ araç
 
-Hedef değişken: selling_price
+- Hedef değişken: selling_price
 
-Ham özellikler: yıl, kilometre, yakıt türü, motor hacmi, güç, vites, satıcı tipi vb.
+- Ham özellikler: yıl, kilometre, yakıt türü, motor hacmi, güç, vites, satıcı tipi vb.
 
 Veri setinde yer alan bazı sütunlar (ör. name, torque)
 yüksek kategori sayısı veya temizlenme zorluğu nedeniyle modele dahil edilmemiştir.
+
+---
+
+# 🛠️ Kullanılan Teknolojiler
+
+🐍 Python 3
+Veri analizi, model geliştirme ve web uygulaması için ana programlama dili
+
+📊 Pandas & NumPy
+Veri okuma, temizleme, dönüştürme ve sayısal işlemler
+
+🧠 Scikit-learn
+Çoklu doğrusal regresyon modeli, train-test split ve performans metrikleri (R², MAE, MSE)
+
+📈 Statsmodels
+OLS tabanlı regresyon ve Backward Elimination yöntemi ile istatistiksel özellik seçimi
+
+🌐 Flask
+Eğitilen modelin web tabanlı bir arayüz üzerinden kullanıcıya sunulması
+
+☁️ Google Colab
+Model geliştirme, eğitim ve deneylerin yürütülmesi
+
+💾 Pickle
+Eğitilen modelin ve öznitelik sırasının dosya olarak kaydedilmesi ve Flask uygulamasında kullanılması
+
+# Neden Bu Teknolojiler?
+
+Seçilen teknolojiler, çoklu doğrusal regresyon problemine uygun,
+ders kapsamında işlenen yöntemlerle uyumlu ve
+modelin uçtan uca (veri → model → web arayüzü) geliştirilmesini sağlayacak şekilde tercih edilmiştir.
 
 ---
 
@@ -78,17 +111,17 @@ yüksek kategori sayısı veya temizlenme zorluğu nedeniyle modele dahil edilme
 
 Projede aşağıdaki veri ön işleme adımları uygulanmıştır:
 
-Birim içeren string değişkenlerin temizlenmesi
+- Birim içeren string değişkenlerin temizlenmesi
 
-"23.4 kmpl" → 23.4
+   - "23.4 kmpl" → 23.4
 
-"1248 CC" → 1248
+   - "1248 CC" → 1248
 
-Sayısal dönüşüm sırasında oluşan eksik değerlerin median yöntemi ile doldurulması
+- Sayısal dönüşüm sırasında oluşan eksik değerlerin median yöntemi ile doldurulması
 
-Kategorik değişkenlerin One-Hot Encoding ile sayısallaştırılması
+- Kategorik değişkenlerin One-Hot Encoding ile sayısallaştırılması
 
-Dummy trap problemini önlemek için drop_first=True kullanımı
+- Dummy trap problemini önlemek için drop_first=True kullanımı
 
 ---
 
@@ -98,35 +131,35 @@ Modelde kullanılan öznitelik sayısı maksimum 10 ile sınırlandırılmışt�
 
 Bu amaçla:
 
-statsmodels kütüphanesi ile OLS modeli kurulmuş
+- statsmodels kütüphanesi ile OLS modeli kurulmuş
 
-p-value > 0.05 olan değişkenler adım adım modelden çıkarılmış
+- p-value > 0.05 olan değişkenler adım adım modelden çıkarılmış
 
-Tüm değişkenler istatistiksel olarak anlamlı hale gelene kadar işlem sürdürülmüştür
+- Tüm değişkenler istatistiksel olarak anlamlı hale gelene kadar işlem sürdürülmüştür
 
 ---
 
 🎯 Final Modelde Kullanılan Özellikler
 
-year
+- year
 
-km_driven
+- km_driven
 
-mileage
+- mileage
 
-engine
+- engine
 
-max_power
+- max_power
 
-seats
+- seats
 
-fuel_Petrol
+- fuel_Petrol
 
-transmission_Manual
+- transmission_Manual
 
-seller_type_Individual
+- seller_type_Individual
 
-owner_Second Owner
+- owner_Second Owner
 
 ---
 
@@ -136,15 +169,15 @@ Final model, Multiple Linear Regression yöntemi ile eğitilmiştir.
 
 Kullanılan metrikler:
 
-R² (Determinasyon Katsayısı)
+- R² (Determinasyon Katsayısı)
 
-MAE (Mean Absolute Error)
+- MAE (Mean Absolute Error)
 
-MSE (Mean Squared Error)
+- MSE (Mean Squared Error)
 
 Performans:
 
-R² ≈ 0.68
+- R² ≈ 0.68
 
 Bu sonuç, modelin araç fiyatlarındaki varyansın yaklaşık %68’ini açıkladığını göstermektedir.
 Model, genelleme yeteneği açısından yeterli ve istikrarlı bir performans sergilemektedir.
@@ -157,15 +190,15 @@ Eğitilen model, kullanıcı dostu bir Flask tabanlı web arayüzü ile sunulmu�
 
 Arayüz özellikleri:
 
-Kullanıcıdan araç bilgilerini alma
+- Kullanıcıdan araç bilgilerini alma
 
-Anında fiyat tahmini
+- Anında fiyat tahmini
 
-Girilen değerlerin tahmin sonrası korunması
+- Girilen değerlerin tahmin sonrası korunması
 
-Arka plan görseli ve modern tasarım
+- Arka plan görseli ve modern tasarım
 
-Responsive (ekrana uyumlu) yapı
+- Responsive (ekrana uyumlu) yapı
 
 Model (model.pkl) ve öznitelik sırası (features.pkl) Flask uygulamasında birebir kullanılmaktadır.
 
@@ -222,15 +255,15 @@ MLP_Flask/
 
 Bu proje kapsamında:
 
-Veri ön işleme
+- Veri ön işleme
 
-İstatistiksel özellik seçimi
+- İstatistiksel özellik seçimi
 
-Çoklu doğrusal regresyon modelleme
+- Çoklu doğrusal regresyon modelleme
 
-Model değerlendirme
+- Model değerlendirme
 
-Flask ile web arayüz geliştirme
+- Flask ile web arayüz geliştirme
 
 adımları uçtan uca gerçekleştirilmiştir.
 
